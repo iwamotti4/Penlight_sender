@@ -12,9 +12,10 @@ const int button_a = 6;
 const int button_b = 7;
 const int neopixel = 5;
 int switchCount = 0;
+
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, neopixel, NEO_GRB + NEO_KHZ800);
 
-
+char trans[25]; // 数字（文字列）の送信用配列
   
 void setup() {
   // put your setup code here, to run once:
@@ -69,15 +70,19 @@ void loop() {
 //加速度センサーの処理-----------------------------------------
 //  if(accel_x>10){//default:y 400
 //    digitalWrite(6,LOW);
-    Serial.print(accel_x,HEX);
+//    Serial.print(accel_x,HEX);
 //    Serial.print(',');
-    Serial.print(accel_y,HEX);
+//    Serial.print(accel_y,HEX);
 //    Serial.print(',');
-    Serial.print(accel_z,HEX);
-    Serial.print('X');
-//      sendAccelData(1,accel_x);
-//      sendAccelData(2,accel_y);
-//      sendAccelData(3,accel_z);
+//    Serial.print(accel_z,HEX);
+//    Serial.print('X');
+//    sendAccelData(1,accel_x);
+//    sendAccelData(2,accel_y);
+//    sendAccelData(3,accel_z);
+ char *json = &trans[0];
+ sprintf(json, "{\"x\":%d,\"y\":%d,\"z\":%d}", accel_x, accel_y,accel_z);
+ Serial.println(json);
+
 
 
 //    Serial.println(sent);    
@@ -103,7 +108,7 @@ void loop() {
 //    swit = 1;
 //  }
 //----------------------------------------------------------
-delay(200);
+delay(500);
 }
 
 void sendAccelData(int header,int value){
